@@ -1,7 +1,7 @@
 def call(Map configMap){
     pipeline {
         agent {
-            label 'AGENT-1'
+            label 'agent-1'
         }
         options{
             timeout(time: 30, unit: 'MINUTES')
@@ -14,7 +14,7 @@ def call(Map configMap){
         environment {
             appVersion = '' // this will become global, we can use across pipeline
             region = 'us-east-1'
-            account_id = '315069654700'
+            account_id = '127214173178'
             project = configMap.get("project")
             environment = 'dev'
             component = configMap.get("component")
@@ -58,7 +58,7 @@ def call(Map configMap){
             stage('Docker build') {
                 
                 steps {
-                    withAWS(region: 'us-east-1', credentials: "aws-creds-${environment}") {
+                    withAWS(region: 'us-east-1', credentials: "aws-cred-${environment}") {
                         sh """
                         aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${account_id}.dkr.ecr.us-east-1.amazonaws.com
 
